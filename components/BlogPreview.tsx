@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
 import { SectionReveal, itemVariants } from '@/components/ui/SectionReveal';
@@ -9,23 +10,26 @@ const blogPosts = [
     {
         id: 1,
         title: "Embracing the F*ck It Button",
-        excerpt: "You know the feeling. You\u2019ve set your goals, planned your meals... yet week after week you find yourself hitting the f*ck it button.",
+        excerpt: "You\u2019ve set your goals, planned your meals... yet week after week you find yourself hitting the f*ck it button.",
         tag: "Motivation",
-        date: "Mar 2026"
+        date: "Mar 2026",
+        image: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&q=80"
     },
     {
         id: 2,
         title: "What I Learned from Training 100s of Clients",
         excerpt: "If you\u2019ve ever stepped on a scale and felt like it was playing a cruel joke, you\u2019re not alone.",
         tag: "Training",
-        date: "Feb 2026"
+        date: "Feb 2026",
+        image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80"
     },
     {
         id: 3,
         title: "Sustainable Weight Loss Without Injections",
         excerpt: "Weight loss often feels like a maze filled with quick fixes. But lasting results come from consistent effort and smart choices.",
         tag: "Nutrition",
-        date: "Mar 2026"
+        date: "Mar 2026",
+        image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80"
     }
 ];
 
@@ -57,7 +61,20 @@ export const BlogPreview = () => {
 
                             {blogPosts.map((post) => (
                                 <div key={post.id} className="w-[80vw] md:w-full flex-shrink-0 md:flex-[1_1_0%] snap-start group hover:cursor-pointer">
-                                    <div className="bg-white p-5 md:p-8 rounded-xl md:rounded-2xl border border-black/[0.04] h-full flex flex-col shadow-card group-hover:shadow-card-hover transition-all duration-300">
+                                    <div className="bg-white rounded-xl md:rounded-2xl border border-black/[0.04] h-full flex flex-col shadow-card group-hover:shadow-card-hover transition-all duration-300 overflow-hidden">
+
+                                        {/* Cover image */}
+                                        <div className="relative w-full aspect-[16/9] overflow-hidden">
+                                            <Image
+                                                src={post.image}
+                                                alt={post.title}
+                                                fill
+                                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                                        </div>
+
+                                        <div className="p-5 md:p-8 flex flex-col flex-grow">
 
                                         <div className="flex items-center justify-between mb-4 md:mb-6">
                                             <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-accent bg-accent/[0.06] px-3 py-1 rounded-full">
@@ -82,6 +99,7 @@ export const BlogPreview = () => {
                                             <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
                                         </div>
 
+                                        </div>
                                     </div>
                                 </div>
                             ))}

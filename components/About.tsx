@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { SectionReveal, itemVariants } from '@/components/ui/SectionReveal';
 
@@ -16,13 +17,14 @@ export const About = () => {
                         className="w-full relative group"
                     >
                         <div className="absolute -inset-1 bg-gradient-accent rounded-2xl lg:rounded-3xl blur opacity-15 group-hover:opacity-25 transition duration-1000 group-hover:duration-200"></div>
-                        <div className="relative aspect-[4/3] md:aspect-[4/3] lg:aspect-square bg-background-tertiary rounded-xl lg:rounded-2xl border border-accent/10 overflow-hidden flex items-center justify-center shadow-soft-lg">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-accent/[0.06] to-transparent z-10" />
-                            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-accent/[0.06] border border-accent/10 flex items-center justify-center">
-                                <svg className="w-8 h-8 md:w-10 md:h-10 text-accent/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
+                        <div className="relative aspect-[4/3] lg:aspect-square rounded-xl lg:rounded-2xl border border-accent/10 overflow-hidden shadow-soft-lg">
+                            <Image
+                                src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80"
+                                alt="Personal training session"
+                                fill
+                                className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-tr from-accent/[0.08] to-transparent" />
                         </div>
                     </motion.div>
 

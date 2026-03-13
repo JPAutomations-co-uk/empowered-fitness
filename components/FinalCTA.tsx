@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
 import { SectionReveal, itemVariants } from '@/components/ui/SectionReveal';
@@ -10,7 +11,17 @@ import { FloatingOrbs } from '@/components/ui/FloatingOrbs';
 export const FinalCTA = () => {
     return (
         <section className="relative w-full min-h-[85dvh] md:h-[100dvh] md:min-h-[600px] flex flex-col items-center justify-center overflow-hidden bg-background-secondary py-14 md:py-0">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(201,96,126,0.08)_0%,rgba(253,248,245,1)_60%)] z-0 pointer-events-none" />
+            {/* Background image with heavy overlay */}
+            <div className="absolute inset-0 z-0">
+                <Image
+                    src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1200&q=80"
+                    alt=""
+                    fill
+                    className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#FDF8F5]/[0.92] via-[#FAF0EC]/[0.88] to-[#FDF8F5]/[0.95]" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(201,96,126,0.06)_0%,transparent_60%)]" />
+            </div>
 
             <FloatingOrbs />
 
