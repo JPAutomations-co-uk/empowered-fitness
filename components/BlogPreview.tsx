@@ -1,0 +1,95 @@
+"use client";
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { FiArrowRight } from 'react-icons/fi';
+import { SectionReveal, itemVariants } from '@/components/ui/SectionReveal';
+
+const blogPosts = [
+    {
+        id: 1,
+        title: "Embracing the F*ck It Button",
+        excerpt: "You know the feeling. You\u2019ve set your goals, planned your meals... yet week after week you find yourself hitting the f*ck it button.",
+        tag: "Motivation",
+        date: "Mar 2026"
+    },
+    {
+        id: 2,
+        title: "What I Learned from Training 100s of Clients",
+        excerpt: "If you\u2019ve ever stepped on a scale and felt like it was playing a cruel joke, you\u2019re not alone.",
+        tag: "Training",
+        date: "Feb 2026"
+    },
+    {
+        id: 3,
+        title: "Sustainable Weight Loss Without Injections",
+        excerpt: "Weight loss often feels like a maze filled with quick fixes. But lasting results come from consistent effort and smart choices.",
+        tag: "Nutrition",
+        date: "Mar 2026"
+    }
+];
+
+export const BlogPreview = () => {
+    return (
+        <section className="py-[100px] w-full overflow-hidden">
+            <div className="max-w-7xl mx-auto px-5 w-full">
+                <SectionReveal>
+
+                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                        <div className="flex flex-col max-w-2xl">
+                            <motion.h2
+                                variants={itemVariants}
+                                className="text-[28px] md:text-4xl font-space-grotesk font-bold text-text-primary mb-4"
+                            >
+                                From the Blog
+                            </motion.h2>
+                            <motion.p
+                                variants={itemVariants}
+                                className="text-base md:text-lg text-text-secondary"
+                            >
+                                Real talk about fitness, nutrition, and not trusting the scales.
+                            </motion.p>
+                        </div>
+                    </div>
+
+                    <motion.div variants={itemVariants} className="w-full overflow-x-auto no-scrollbar pb-8 -mx-5 px-5 md:mx-0 md:px-0">
+                        <div className="flex gap-4 md:gap-6 w-max md:w-full snap-x snap-mandatory">
+
+                            {blogPosts.map((post) => (
+                                <div key={post.id} className="w-[85vw] md:w-full flex-shrink-0 md:flex-[1_1_0%] snap-start group hover:cursor-pointer">
+                                    <div className="bg-white p-6 md:p-8 rounded-2xl border border-black/[0.04] h-full flex flex-col shadow-card group-hover:shadow-card-hover transition-all duration-300">
+
+                                        <div className="flex items-center justify-between mb-6">
+                                            <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-accent bg-accent/[0.06] px-3 py-1 rounded-full">
+                                                {post.tag}
+                                            </span>
+                                            <span className="text-xs text-text-tertiary font-medium">
+                                                {post.date}
+                                            </span>
+                                        </div>
+
+                                        <h3 className="text-xl md:text-2xl font-space-grotesk font-bold text-text-primary mb-4 group-hover:text-accent transition-colors leading-snug">
+                                            {post.title}
+                                        </h3>
+
+                                        <p className="text-base text-text-secondary leading-relaxed mb-8 flex-grow">
+                                            {post.excerpt}
+                                        </p>
+
+                                        <div className="mt-auto flex justify-between items-center text-accent text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span>Read article</span>
+                                            <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            ))}
+
+                        </div>
+                    </motion.div>
+
+                </SectionReveal>
+            </div>
+        </section>
+    );
+};

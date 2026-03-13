@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #FDF8F5;
+  --bg-secondary: #FAF0EC;
+  --bg-tertiary: #F2E4DD;
+  --accent: #C9607E;
+  --accent-hover: #D97094;
+  --text-primary: #2D2226;
+  --text-secondary: #7D6B72;
+  --text-tertiary: #B8A3AA;
+  --gradient-accent: linear-gradient(135deg, #C9607E 0%, #E8B4A2 100%);
+  --glass: rgba(201, 96, 126, 0.06);
+}
+
+body {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-space-grotesk);
+}
+
+.font-sans {
+  font-family: var(--font-inter);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
