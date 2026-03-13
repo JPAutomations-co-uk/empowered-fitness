@@ -17,7 +17,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
                 ref={ref}
                 whileHover={hoverEffect ? { scale: 1.02, y: -4 } : {}}
                 whileTap={hoverEffect ? { scale: 0.98 } : {}}
-                className={`bg-white rounded-2xl border border-black/[0.04] p-6 shadow-card transition-all duration-300 relative overflow-hidden group hover:shadow-card-hover ${className}`}
+                className={`bg-white rounded-2xl border border-black/[0.04] p-5 md:p-6 shadow-card transition-all duration-300 relative overflow-hidden group hover:shadow-card-hover ${className}`}
                 {...props}
             >
                 {hoverEffect && (

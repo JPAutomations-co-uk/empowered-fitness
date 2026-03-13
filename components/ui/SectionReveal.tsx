@@ -13,22 +13,22 @@ export const sectionVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: { staggerChildren: 0.12 }
+        transition: { staggerChildren: 0.1 }
     }
 };
 
 export const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
     }
 };
 
 export const SectionReveal: React.FC<SectionRevealProps> = ({ children, className = '', delay = 0 }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const isInView = useInView(ref, { once: true, margin: "-60px" });
 
     return (
         <motion.div
