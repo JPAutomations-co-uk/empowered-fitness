@@ -7,6 +7,22 @@ import { FiArrowRight, FiChevronDown } from 'react-icons/fi';
 import { Button } from '@/components/ui/Button';
 import { FloatingOrbs } from '@/components/ui/FloatingOrbs';
 import { useIsMobile } from '@/components/ui/useMobile';
+import { Counter } from '@/components/ui/Counter';
+
+/* ── Title segments for character-level animation ─────────────── */
+
+interface TitleSegment { text: string; gradient: boolean }
+
+const titleLineSegments: TitleSegment[][] = [
+    [
+        { text: "Change Your ", gradient: false },
+        { text: "Focus.", gradient: true },
+    ],
+    [
+        { text: "Change Your ", gradient: false },
+        { text: "Body.", gradient: true },
+    ],
+];
 
 export const Hero = () => {
     const { scrollY } = useScroll();
@@ -14,6 +30,8 @@ export const Hero = () => {
 
     const y = useTransform(scrollY, [0, 1000], isMobile ? [0, 0] : [0, 500]);
     const opacity = useTransform(scrollY, [0, 600], [1, 0]);
+
+    /* ── Mobile animation variants ────────────────────────────── */
 
     const blockStagger: import('framer-motion').Variants = {
         hidden: { opacity: 0 },
@@ -27,6 +45,24 @@ export const Hero = () => {
         show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
     };
 
+    /* Character animation for mobile title */
+    const charContainer: import('framer-motion').Variants = {
+        hidden: { opacity: 1 },
+        show: {
+            opacity: 1,
+            transition: { staggerChildren: 0.02, delayChildren: 0.5 }
+        }
+    };
+    const charAnim: import('framer-motion').Variants = {
+        hidden: { opacity: 0, scale: 0, rotate: -8 },
+        show: {
+            opacity: 1, scale: 1, rotate: 0,
+            transition: { type: "spring", damping: 15, stiffness: 200 }
+        }
+    };
+
+    /* ── Desktop animation variants ───────────────────────────── */
+
     const wordContainer: import('framer-motion').Variants = {
         hidden: { opacity: 0 },
         show: {
@@ -39,8 +75,8 @@ export const Hero = () => {
         show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
     };
 
-    const title = "Change Your Focus. Change Your Body.";
-    const words = title.split(" ");
+    const desktopTitle = "Change Your Focus. Change Your Body.";
+    const words = desktopTitle.split(" ");
 
     return (
         <section className="relative w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
@@ -48,19 +84,8 @@ export const Hero = () => {
             {/* === MOBILE HERO === */}
             {isMobile ? (
                 <>
-                    {/* Background image with gradient overlay */}
-                    <div className="absolute inset-0 z-0">
-                        <Image
-                            src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80"
-                            alt="Fitness lifestyle"
-                            fill
-                            className="object-cover object-center"
-                            priority
-                        />
-                        {/* Rich multi-layer gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#FDF8F5]/95 via-[#FDF8F5]/70 to-[#C9607E]/30" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#FDF8F5]/90 via-transparent to-transparent" />
-                    </div>
+                    {/* Animated gradient mesh background */}
+                    <div className="absolute inset-0 z-0 hero-gradient-mesh" />
 
                     <motion.div
                         style={{ opacity }}
@@ -69,6 +94,18 @@ export const Hero = () => {
                         animate="show"
                         className="relative z-20 px-6 w-full flex flex-col items-start justify-center h-full"
                     >
+                        {/* Animated accent line — first in stagger */}
+                        <motion.div
+                            variants={{
+                                hidden: { scaleX: 0, opacity: 0 },
+                                show: {
+                                    scaleX: 1, opacity: 1,
+                                    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+                                }
+                            }}
+                            className="w-10 h-[2px] bg-gradient-to-r from-accent to-[#E8B4A2] rounded-full mb-4 origin-left"
+                        />
+
                         {/* Audience-targeting eyebrow */}
                         <motion.div
                             variants={blockItem}
@@ -79,16 +116,32 @@ export const Hero = () => {
                             </span>
                         </motion.div>
 
-                        {/* Title */}
+                        {/* Character-by-character title */}
                         <motion.h1
-                            variants={blockItem}
+                            variants={charContainer}
+                            initial="hidden"
+                            animate="show"
                             className="text-[2.75rem] leading-[1.05] font-space-grotesk font-bold tracking-tight text-text-primary mb-5"
+                            aria-label="Change Your Focus. Change Your Body."
                         >
-                            Change Your{' '}
-                            <span className="gradient-text">Focus.</span>
-                            <br />
-                            Change Your{' '}
-                            <span className="gradient-text">Body.</span>
+                            {titleLineSegments.map((line, lineIdx) => (
+                                <span key={lineIdx} className="block">
+                                    {line.map((segment, segIdx) => (
+                                        <span key={segIdx} className={segment.gradient ? 'gradient-text' : ''}>
+                                            {segment.text.split("").map((char, charIdx) => (
+                                                <motion.span
+                                                    key={`${lineIdx}-${segIdx}-${charIdx}`}
+                                                    variants={charAnim}
+                                                    className="inline-block"
+                                                    style={char === ' ' ? { width: '0.3em' } : undefined}
+                                                >
+                                                    {char === ' ' ? '\u00A0' : char}
+                                                </motion.span>
+                                            ))}
+                                        </span>
+                                    ))}
+                                </span>
+                            ))}
                         </motion.h1>
 
                         {/* Subtitle */}
@@ -99,9 +152,9 @@ export const Hero = () => {
                             Level 4 Personal Trainer specialising in rehab, functional fitness & nutrition. No fads. Just results.
                         </motion.p>
 
-                        {/* CTA */}
+                        {/* CTA with pulsing glow */}
                         <motion.div variants={blockItem} className="w-full">
-                            <Button size="lg" fullWidth className="group shadow-accent-glow">
+                            <Button size="lg" fullWidth className="group animate-pulse-glow">
                                 Book a Free Consultation
                                 <motion.div className="ml-2 inline-block">
                                     <FiArrowRight />
@@ -109,8 +162,23 @@ export const Hero = () => {
                             </Button>
                         </motion.div>
 
+                        {/* Social proof counter */}
+                        <motion.div
+                            variants={blockItem}
+                            className="flex items-center justify-center gap-2.5 mt-5 w-full"
+                        >
+                            <div className="flex -space-x-2">
+                                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-accent to-[#E8B4A2] border-2 border-white" />
+                                <div className="w-6 h-6 rounded-full bg-accent/30 border-2 border-white" />
+                                <div className="w-6 h-6 rounded-full bg-accent/15 border-2 border-white" />
+                            </div>
+                            <span className="text-[13px] text-text-secondary font-medium">
+                                <Counter value={200} suffix="+" className="text-accent font-bold text-[13px]" /> women transformed
+                            </span>
+                        </motion.div>
+
                         {/* Location pill */}
-                        <motion.div variants={blockItem} className="flex items-center gap-2 mt-5 w-full justify-center">
+                        <motion.div variants={blockItem} className="flex items-center gap-2 mt-4 w-full justify-center">
                             <div className="w-1.5 h-1.5 rounded-full bg-accent/60" />
                             <span className="text-[11px] text-text-tertiary font-medium tracking-wide">Sutton Coldfield & Online</span>
                         </motion.div>
@@ -118,7 +186,7 @@ export const Hero = () => {
                         {/* Scroll indicator */}
                         <motion.div
                             variants={blockItem}
-                            className="flex flex-col items-center w-full mt-8"
+                            className="flex flex-col items-center w-full mt-6"
                         >
                             <motion.div
                                 animate={{ y: [0, 6, 0] }}
@@ -131,7 +199,7 @@ export const Hero = () => {
                     </motion.div>
                 </>
             ) : (
-                /* === DESKTOP HERO === */
+                /* === DESKTOP HERO (unchanged) === */
                 <>
                     <motion.div
                         style={{ y }}
