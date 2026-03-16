@@ -45,19 +45,19 @@ export const Hero = () => {
         show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
     };
 
-    /* Character animation for mobile title */
+    /* Character animation for mobile title — smooth fade+slide, no spring jank */
     const charContainer: import('framer-motion').Variants = {
         hidden: { opacity: 1 },
         show: {
             opacity: 1,
-            transition: { staggerChildren: 0.02, delayChildren: 0.5 }
+            transition: { staggerChildren: 0.025, delayChildren: 0.5 }
         }
     };
     const charAnim: import('framer-motion').Variants = {
-        hidden: { opacity: 0, scale: 0, rotate: -8 },
+        hidden: { opacity: 0, y: 12 },
         show: {
-            opacity: 1, scale: 1, rotate: 0,
-            transition: { type: "spring", damping: 15, stiffness: 200 }
+            opacity: 1, y: 0,
+            transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }
         }
     };
 
@@ -121,7 +121,7 @@ export const Hero = () => {
                             variants={charContainer}
                             initial="hidden"
                             animate="show"
-                            className="text-[2.75rem] leading-[1.05] font-space-grotesk font-bold tracking-tight text-text-primary mb-5"
+                            className="text-[2.35rem] leading-[1.08] font-space-grotesk font-bold tracking-tight text-text-primary mb-4"
                             aria-label="Change Your Focus. Change Your Body."
                         >
                             {titleLineSegments.map((line, lineIdx) => (
@@ -132,8 +132,7 @@ export const Hero = () => {
                                                 <motion.span
                                                     key={`${lineIdx}-${segIdx}-${charIdx}`}
                                                     variants={charAnim}
-                                                    className="inline-block"
-                                                    style={char === ' ' ? { width: '0.3em' } : undefined}
+                                                    className={`inline-block ${char === ' ' ? 'w-[0.25em]' : ''}`}
                                                 >
                                                     {char === ' ' ? '\u00A0' : char}
                                                 </motion.span>
